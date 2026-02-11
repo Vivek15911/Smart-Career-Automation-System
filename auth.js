@@ -113,12 +113,22 @@ async function signInWithGoogle() {
 
 // Sign out
 async function signOut() {
+    console.log('🚪 Sign out initiated');
     try {
         const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
+        console.log('✅ Supabase sign out successful');
     } catch (error) {
         console.error('Error signing out:', error.message);
-        alert('Failed to sign out. Please try again.');
+        // Even if Supabase fails, we should clear local state
+    } finally {
+        // Force clear any local storage items related to supabase
+        localStorage.clear();
+        currentUser = null;
+        updateUIForUnauthenticatedUser();
+
+        // Force redirect to home
+        window.location.href = 'index.html';
     }
 }
 
@@ -152,7 +162,7 @@ function updateUIForAuthenticatedUser(user) {
                 <p class="user-email">${user.email}</p>
             </div>
             <hr>
-            <button onclick="signOut()" class="dropdown-item">
+            <button id="btn-signout" class="dropdown-item">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M6 14H3C2.44772 14 2 13.5523 2 13V3C2 2.44772 2.44772 2 3 2H6M11 11L14 8M14 8L11 5M14 8H6" 
                           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -187,11 +197,19 @@ function updateUIForAuthenticatedUser(user) {
 function attachDropdownListeners(userMenu) {
     const profileBtn = userMenu.querySelector('.user-profile-btn');
     const dropdown = userMenu.querySelector('.user-dropdown');
+    const signOutBtn = userMenu.querySelector('#btn-signout');
 
     profileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         dropdown.classList.toggle('active');
     });
+
+    if (signOutBtn) {
+        signOutBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent closing dropdown from interfering
+            signOut();
+        });
+    }
 
     // Close dropdown when clicking outside
     document.addEventListener('click', () => {
