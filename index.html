@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker - Manage Your Applications Effortlessly</title>
+    <meta name="description"
+        content="Track, remind, and get hired faster with our job application management system. Never forget to follow up with timely reminders.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="auth.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" stroke-width="2" />
+                        <path d="M9 12L11 14L15 10" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span>Job Application</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Home</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="tracker.html">Application Tracker</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <button class="btn-login">Login</button>
+                    <button class="btn-primary" onclick="window.location.href='tracker.html'">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Manage Your Job Applications<br>& Follow-Ups Effortlessly</h1>
+                    <p class="hero-subtitle">Track, Remind, and Get Hired Faster!</p>
+                    <button class="btn-cta" onclick="window.location.href='tracker.html'">Get Started for Free</button>
+                </div>
+                <div class="hero-visual">
+                    <div class="tracker-mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-tabs">
+                                <span class="tab active">Application Tracker</span>
+                            </div>
+                        </div>
+                        <div class="mockup-content">
+                            <div class="application-row">
+                                <span class="company">Google</span>
+                                <span class="status status-interview">Interview</span>
+                            </div>
+                            <div class="application-row">
+                                <span class="company">Meta</span>
+                                <span class="status status-applied">Applied</span>
+                            </div>
+                            <div class="application-row">
+                                <span class="company">Amazon</span>
+                                <span class="status status-rejected">Rejected</span>
+                            </div>
+                        </div>
+                        <div class="calendar-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect width="48" height="48" rx="8" fill="#FF6B6B" />
+                                <text x="24" y="20" text-anchor="middle" fill="white" font-size="10"
+                                    font-weight="600">MAR</text>
+                                <text x="24" y="35" text-anchor="middle" fill="white" font-size="16"
+                                    font-weight="700">15</text>
+                            </svg>
+                        </div>
+                        <div class="profile-icon">
+                            <div class="profile-circle">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <circle cx="16" cy="16" r="16" fill="#4CAF50" />
+                                    <path
+                                        d="M16 16C18.2091 16 20 14.2091 20 12C20 9.79086 18.2091 8 16 8C13.7909 8 12 9.79086 12 12C12 14.2091 13.7909 16 16 16Z"
+                                        fill="white" />
+                                    <path d="M16 18C12.6863 18 10 20.6863 10 24H22C22 20.6863 19.3137 18 16 18Z"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="match-score">
+                            <div class="score-circle">
+                                <svg width="80" height="80" viewBox="0 0 80 80">
+                                    <circle cx="40" cy="40" r="35" fill="#1976D2" opacity="0.2" />
+                                    <circle cx="40" cy="40" r="30" fill="#1976D2" opacity="0.4" />
+                                    <text x="40" y="35" text-anchor="middle" fill="white" font-size="24"
+                                        font-weight="700">85%</text>
+                                    <text x="40" y="50" text-anchor="middle" fill="white" font-size="10">Resume
+                                        Match</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-decoration">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <rect width="64" height="64" rx="12" fill="#E3F2FD" />
+                            <path d="M20 24H44M20 32H44M20 40H32" stroke="#1976D2" stroke-width="3"
+                                stroke-linecap="round" />
+                            <circle cx="48" cy="40" r="6" fill="#4CAF50" />
+                            <path d="M46 40L47.5 41.5L50 39" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3>Track All Your Applications</h3>
+                    <p>Organize and manage all your job applications in one central dashboard.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <rect width="64" height="64" rx="12" fill="#FFF3E0" />
+                            <circle cx="32" cy="28" r="8" fill="#FF9800" />
+                            <path d="M32 38L28 48H36L32 38Z" fill="#FF9800" />
+                            <circle cx="44" cy="20" r="4" fill="#4CAF50" />
+                            <path d="M42 20L43 21L45 19" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Set Follow-Up Reminders</h3>
+                    <p>Never forget to follow up with timely reminders.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <rect width="64" height="64" rx="12" fill="#E8F5E9" />
+                            <rect x="20" y="24" width="24" height="28" rx="2" stroke="#4CAF50" stroke-width="2" />
+                            <path d="M26 30H38M26 36H38M26 42H34" stroke="#4CAF50" stroke-width="2"
+                                stroke-linecap="round" />
+                            <circle cx="48" cy="28" r="6" fill="#4CAF50" />
+                            <path d="M46 28L47.5 29.5L50 27" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Resume & JD Match Score</h3>
+                    <p>See how well your resume matches the job description.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <rect width="64" height="64" rx="12" fill="#FFEBEE" />
+                            <circle cx="32" cy="32" r="12" stroke="#F44336" stroke-width="2" />
+                            <path d="M32 26V32L36 36" stroke="#F44336" stroke-width="2" stroke-linecap="round" />
+                            <circle cx="48" cy="20" r="4" fill="#4CAF50" />
+                        </svg>
+                    </div>
+                    <h3>Status Updates</h3>
+                    <p>Monitor your progress: Applied, Interview, Rejected!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+                            <rect x="10" y="10" width="100" height="60" rx="4" fill="#E3F2FD" />
+                            <rect x="20" y="20" width="35" height="8" rx="2" fill="#1976D2" />
+                            <rect x="65" y="20" width="35" height="8" rx="2" fill="#1976D2" />
+                            <rect x="20" y="35" width="80" height="6" rx="2" fill="#90CAF9" />
+                            <rect x="20" y="45" width="80" height="6" rx="2" fill="#90CAF9" />
+                            <rect x="20" y="55" width="60" height="6" rx="2" fill="#90CAF9" />
+                        </svg>
+                    </div>
+                    <h3>Add Your Applications</h3>
+                    <p>Easily input and track all your job applications.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+                            <circle cx="60" cy="40" r="25" fill="#FFF3E0" />
+                            <circle cx="60" cy="40" r="18" fill="#FF9800" />
+                            <path d="M60 30L62 38H70L64 43L66 51L60 46L54 51L56 43L50 38H58L60 30Z" fill="#FFF" />
+                            <circle cx="80" cy="25" r="8" fill="#4CAF50" />
+                            <path d="M77 25L79 27L83 23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Get Follow-Up Alerts</h3>
+                    <p>Receive reminders to follow up with employers.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+                            <rect x="10" y="10" width="100" height="60" rx="4" fill="#E8F5E9" />
+                            <rect x="20" y="20" width="40" height="8" rx="2" fill="#4CAF50" />
+                            <rect x="70" y="20" width="30" height="8" rx="2" fill="#81C784" />
+                            <rect x="20" y="35" width="80" height="6" rx="2" fill="#A5D6A7" />
+                            <rect x="20" y="45" width="70" height="6" rx="2" fill="#A5D6A7" />
+                            <circle cx="95" cy="55" r="10" fill="#1976D2" />
+                            <path d="M92 55L94 57L98 53" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Track Your Progress</h3>
+                    <p>Update and view your application status: Applied, Interview, Rejected!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Land Your Dream Job with Confidence</h2>
+            <button class="btn-cta-large" onclick="window.location.href='tracker.html'">Get Started Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Job Application Tracker. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Login Loading Overlay -->
+    <div id="login-loading-overlay" class="login-loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3>Connecting to Google...</h3>
+            <p>Please wait while we redirect you safely.</p>
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Initialize authentication on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            initAuth();
+        });
+    </script>
+</body>
+
+</html>
