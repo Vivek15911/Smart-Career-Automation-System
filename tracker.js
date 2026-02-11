@@ -1,6 +1,6 @@
 // Supabase client and user state
-let supabase = null;
-let currentUser = null;
+let appSupabase = null;
+let appCurrentUser = null;
 let applications = [];
 let editingId = null;
 
@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
     }
 
-    supabase = window.supabaseClient;
+    appSupabase = window.supabaseClient;
 
     // Get current user
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await appSupabase.auth.getSession();
     if (session) {
-        currentUser = session.user;
+        appCurrentUser = session.user;
         await loadApplications();
         updateDashboard();
         initializeCharts();
@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     setDefaultDate();
 
     // Subscribe to realtime changes
-    if (currentUser) {
+    if (appCurrentUser) {
         setupRealtimeSubscription();
     }
 });
 
 // Setup Realtime Subscription
 function setupRealtimeSubscription() {
-    supabase
+    appSupabase
         .channel('public:applications')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, payload => {
             console.log('Change received!', payload);
@@ -86,16 +86,21 @@ window.editApplication = editApplication;
 window.deleteApplication = deleteApplication;
 
 // Handle form submission
+// Handle form submission
 document.getElementById('applicationForm').addEventListener('submit', async function (e) {
     e.preventDefault();
+    console.log('📝 Form submission triggered');
 
-    if (!currentUser) {
+    if (!appCurrentUser) {
+        console.error('❌ No current user found during form submission');
         alert('Please sign in to save applications');
         return;
     }
 
+    console.log('👤 Current user:', appCurrentUser.id);
+
     const formData = {
-        user_id: currentUser.id,
+        user_id: appCurrentUser.id,
         company_name: document.getElementById('companyName').value,
         job_title: document.getElementById('jobTitle').value,
         job_description: document.getElementById('jobDescription').value,
@@ -106,10 +111,10 @@ document.getElementById('applicationForm').addEventListener('submit', async func
         hr_name: document.getElementById('hrName').value,
         hr_email: document.getElementById('hrEmail').value,
         salary: document.getElementById('salary').value,
-        hr_email: document.getElementById('hrEmail').value,
-        salary: document.getElementById('salary').value,
         job_url: document.getElementById('jobUrl').value
     };
+
+    console.log('📦 Form data prepared:', formData);
 
     // Handle File Upload
     const fileInput = document.getElementById('resumeUsed');
@@ -117,23 +122,25 @@ document.getElementById('applicationForm').addEventListener('submit', async func
 
     try {
         if (file) {
+            console.log('Bg_> Uploading resume...');
             const fileExt = file.name.split('.').pop();
-            const fileName = `${currentUser.id}/${Date.now()}.${fileExt}`;
+            const fileName = `${appCurrentUser.id}/${Date.now()}.${fileExt}`;
             const filePath = `${fileName}`;
 
             // Upload to Supabase Storage
-            const { error: uploadError } = await supabase.storage
+            const { error: uploadError } = await appSupabase.storage
                 .from('resumes')
                 .upload(filePath, file);
 
             if (uploadError) throw uploadError;
 
             // Get Public URL
-            const { data: { publicUrl } } = supabase.storage
+            const { data: { publicUrl } } = appSupabase.storage
                 .from('resumes')
                 .getPublicUrl(filePath);
 
             formData.resume_url = publicUrl;
+            console.log('✅ Resume uploaded, URL:', publicUrl);
         } else if (editingId) {
             // Keep existing resume URL if editing and no new file selected
             const existingApp = applications.find(a => a.id === editingId);
@@ -142,50 +149,71 @@ document.getElementById('applicationForm').addEventListener('submit', async func
             }
         }
 
+        let resultError = null;
+
         if (editingId) {
             // Update existing application
-            const { error } = await supabase
+            console.log('🔄 Updating application:', editingId);
+            const { error } = await appSupabase
                 .from('applications')
                 .update(formData)
                 .eq('id', editingId)
-                .eq('user_id', currentUser.id);
-
-            if (error) throw error;
+                .eq('user_id', appCurrentUser.id);
+            resultError = error;
         } else {
             // Insert new application
-            const { error } = await supabase
+            console.log('➕ Inserting new application');
+            const { error } = await appSupabase
                 .from('applications')
                 .insert([formData]);
-
-            if (error) throw error;
+            resultError = error;
         }
 
+        if (resultError) {
+            console.error('❌ Supabase error:', resultError);
+            throw resultError;
+        }
+
+        console.log('✅ Application saved successfully');
+
+        // Refresh everything
         await loadApplications();
         updateDashboard();
         updateCharts();
         renderCalendar();
-        closeModal();
+
+        // Use window.closeModal if available, else local
+        if (window.closeModal) window.closeModal();
+        else closeModal();
+
+        console.log('✨ UI refreshed and modal closed');
+
     } catch (error) {
-        console.error('Error saving application:', error);
+        console.error('❌ Error saving application:', error);
         alert('Failed to save application: ' + error.message);
     }
 });
 
 // Load applications from Supabase
 async function loadApplications() {
-    if (!currentUser) return;
+    console.log('📥 Loading applications...');
+    if (!appCurrentUser) {
+        console.log('⚠️ No current user in loadApplications');
+        return;
+    }
 
     const container = document.getElementById('applicationsList');
 
     try {
-        const { data, error } = await supabase
+        const { data, error } = await appSupabase
             .from('applications')
             .select('*')
-            .eq('user_id', currentUser.id)
+            .eq('user_id', appCurrentUser.id)
             .order('application_date', { ascending: false });
 
         if (error) throw error;
 
+        console.log(`✅ Loaded ${data ? data.length : 0} applications`);
         applications = data || [];
 
         if (applications.length === 0) {
@@ -321,11 +349,11 @@ async function deleteApplication(id) {
     if (!confirm('Are you sure you want to delete this application?')) return;
 
     try {
-        const { error } = await supabase
+        const { error } = await appSupabase
             .from('applications')
             .delete()
             .eq('id', id)
-            .eq('user_id', currentUser.id);
+            .eq('user_id', appCurrentUser.id);
 
         if (error) throw error;
 

@@ -217,6 +217,7 @@ function attachDropdownListeners(userMenu) {
     });
 
     // Update CTA buttons to go to tracker
+    const ctaButtons = document.querySelectorAll('.btn-primary');
     ctaButtons.forEach(btn => {
         if (btn.textContent.includes('Get Started') || btn.textContent.includes('Start')) {
             btn.onclick = () => window.location.href = 'tracker.html';
