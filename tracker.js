@@ -52,19 +52,38 @@ function setDefaultDate() {
 
 // Show add form modal
 function showAddForm() {
+    console.log('Opening add form modal');
     editingId = null;
-    document.getElementById('modalTitle').textContent = 'Add New Application';
-    document.getElementById('applicationForm').reset();
+    const modalTitle = document.getElementById('modalTitle');
+    const form = document.getElementById('applicationForm');
+    const modal = document.getElementById('applicationModal');
+
+    if (modalTitle) modalTitle.textContent = 'Add New Application';
+    if (form) form.reset();
     setDefaultDate();
-    document.getElementById('applicationModal').classList.add('active');
+
+    if (modal) {
+        modal.classList.add('active');
+    } else {
+        console.error('Modal element not found!');
+    }
 }
 
 // Close modal
 function closeModal() {
-    document.getElementById('applicationModal').classList.remove('active');
-    document.getElementById('applicationForm').reset();
+    const modal = document.getElementById('applicationModal');
+    const form = document.getElementById('applicationForm');
+
+    if (modal) modal.classList.remove('active');
+    if (form) form.reset();
     editingId = null;
 }
+
+// Expose functions globally
+window.showAddForm = showAddForm;
+window.closeModal = closeModal;
+window.editApplication = editApplication;
+window.deleteApplication = deleteApplication;
 
 // Handle form submission
 document.getElementById('applicationForm').addEventListener('submit', async function (e) {
@@ -87,8 +106,9 @@ document.getElementById('applicationForm').addEventListener('submit', async func
         hr_name: document.getElementById('hrName').value,
         hr_email: document.getElementById('hrEmail').value,
         salary: document.getElementById('salary').value,
-        job_url: document.getElementById('jobUrl').value,
-        notes: document.getElementById('notes').value
+        hr_email: document.getElementById('hrEmail').value,
+        salary: document.getElementById('salary').value,
+        job_url: document.getElementById('jobUrl').value
     };
 
     // Handle File Upload
@@ -292,7 +312,6 @@ async function editApplication(id) {
     document.getElementById('hrEmail').value = app.hr_email || '';
     document.getElementById('salary').value = app.salary || '';
     document.getElementById('jobUrl').value = app.job_url || '';
-    document.getElementById('notes').value = app.notes || '';
 
     document.getElementById('applicationModal').classList.add('active');
 }
