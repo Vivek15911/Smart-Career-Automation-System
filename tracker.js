@@ -232,80 +232,50 @@ async function loadApplications() {
         }
 
         container.innerHTML = applications.map(app => `
-            <div class="application-item">
-                <div class="application-header">
-                    <div class="application-title">
+            <div class="application-card">
+                <div class="card-header">
+                    <div class="header-main">
                         <h3>${app.company_name}</h3>
-                        <p>${app.job_title}</p>
+                        <span class="role">${app.job_title}</span>
                     </div>
-                    <span class="application-status status-${app.status.toLowerCase().replace(' ', '-').replace('scheduled', '')}">${app.status}</span>
+                    <span class="status-badge status-${app.status.toLowerCase().replace(' ', '-').replace('scheduled', '')}">${app.status}</span>
                 </div>
                 
-                <div class="application-details">
-                    <div class="detail-item">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <rect x="2" y="3" width="12" height="11" rx="1" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M2 6H14M5 3V2M11 3V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                        <span class="value">${new Date(app.application_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                <div class="card-body">
+                    <div class="info-row">
+                        <div class="info-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span>${new Date(app.application_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                        ${app.location ? `
+                        <div class="info-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span>${app.location}</span>
+                        </div>` : ''}
                     </div>
-                    ${app.location ? `
-                    <div class="detail-item">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M8 2C5.79 2 4 3.79 4 6C4 9 8 14 8 14C8 14 12 9 12 6C12 3.79 10.21 2 8 2Z" stroke="currentColor" stroke-width="1.5"/>
-                            <circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-                        </svg>
-                        <span class="value">${app.location}</span>
+                    
+                    <div class="info-row">
+                        ${app.salary ? `
+                        <div class="info-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            <span>${app.salary}</span>
+                        </div>` : ''}
+                        
+                        ${app.job_url ? `
+                        <div class="info-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            <a href="${app.job_url}" target="_blank">Job Link</a>
+                        </div>` : ''}
                     </div>
-                    ` : ''}
-                    ${app.salary ? `
-                    <div class="detail-item">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M8 5V11M6 7H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                        <span class="value">${app.salary}</span>
-                    </div>
-                    ` : ''}
-                    ${app.job_url ? `
-                    <div class="detail-item">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M7 3H3V13H13V9M10 2H14V6M14 2L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="value">Job Link</span>
-                    </div>
-                    ` : ''}
                 </div>
                 
-                <div class="application-actions">
-                    ${app.resume_url ? `
-                    <a href="${app.resume_url}" target="_blank" class="btn-download-resume" title="Download Resume">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <path d="M8 12L8 4M8 12L11 9M8 12L5 9M3 14H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Resume
-                    </a>
-                    ` : ''}
-                    <button class="btn-edit" onclick="editApplication(${app.id})">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                            <path d="M11.5 2L14 4.5L5 13.5L2 14L2.5 11L11.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Edit
-                    </button>
-                    <button class="btn-delete" onclick="deleteApplication(${app.id})">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 4H13M5 4V3H11V4M6 7V11M10 7V11M4 4L5 13H11L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Delete
-                    </button>
-                    ${app.job_url ? `
-                    <a href="${app.job_url}" target="_blank" class="btn-view-job">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                            <path d="M7 3H3V13H13V9M10 2H14V6M14 2L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        View Job
-                    </a>
-                    ` : ''}
+                <div class="card-footer">
+                    <div class="action-buttons">
+                        <button class="btn-action btn-edit" onclick="editApplication(${app.id})">Edit</button>
+                        <button class="btn-action btn-delete" onclick="deleteApplication(${app.id})">Delete</button>
+                        ${app.job_url ? `<a href="${app.job_url}" target="_blank" class="btn-action btn-view">View Job</a>` : ''}
+                    </div>
+                    ${app.resume_url ? `<a href="${app.resume_url}" target="_blank" class="resume-link">Resume</a>` : ''}
                 </div>
             </div>
         `).join('');

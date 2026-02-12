@@ -170,112 +170,83 @@
 
 .applications-list {
     display: grid;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 }
 
-.application-item {
+@media (max-width: 768px) {
+    .applications-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Application Card Redesign */
+.application-card {
     background: var(--white);
-    padding: 0;
     border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e8e8e8;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Soft shadow for light mode */
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    /* Prepare for border transition */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     position: relative;
+    overflow: hidden;
 }
 
-.application-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, #1976D2 0%, #42A5F5 100%);
-}
-
-.application-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transform: translateX(2px);
-    border-color: #d0d0d0;
-}
-
-.application-header {
+/* Card Header */
+.card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px 16px 24px;
-    background: var(--white);
-    border-bottom: 1px solid #f0f0f0;
+    align-items: flex-start;
 }
 
-.application-title {
-    flex: 1;
+.header-main {
     display: flex;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.application-title h3 {
-    font-size: 18px;
+.header-main h3 {
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-dark);
     margin: 0;
-    min-width: 180px;
 }
 
-.application-title p {
-    color: var(--text-gray);
+.header-main .role {
     font-size: 14px;
+    color: var(--text-gray);
     font-weight: 500;
-    margin: 0;
 }
 
-.application-status {
+.status-badge {
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 11px;
     font-weight: 700;
-    white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.status-applied {
-    background: #E3F2FD;
-    color: #1976D2;
-}
-
-.status-interview {
-    background: #E8F5E9;
-    color: #4CAF50;
-}
-
-.status-offer {
-    background: #FFF3E0;
-    color: #FF9800;
-}
-
-.status-rejected {
-    background: #FFEBEE;
-    color: #F44336;
-}
-
-.status-hold {
-    background: #F3E5F5;
-    color: #9C27B0;
-}
-
-.application-details {
+/* Card Body */
+.card-body {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
     gap: 24px;
-    padding: 14px 20px 14px 24px;
-    background: #fafafa;
+    align-items: center;
     flex-wrap: wrap;
 }
 
-.detail-item {
+.info-item {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -284,75 +255,188 @@
     font-weight: 500;
 }
 
-.detail-item svg {
-    flex-shrink: 0;
-    opacity: 0.6;
-}
-
-.detail-item .label {
+.info-item svg {
+    width: 16px;
+    height: 16px;
     color: var(--text-gray);
-    font-weight: 400;
 }
 
-.detail-item .value {
-    color: var(--text-dark);
+.info-item a {
+    color: var(--primary-blue);
+    text-decoration: none;
     font-weight: 600;
 }
 
-.application-actions {
+.info-item a:hover {
+    text-decoration: underline;
+}
+
+/* Card Footer & Actions */
+.card-footer {
     display: flex;
-    gap: 8px;
-    padding: 12px 20px 12px 24px;
-    margin-top: 15px;
-    padding-top: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 16px;
     border-top: 1px solid #f0f0f0;
 }
 
-.btn-edit,
-.btn-delete,
-.btn-view-job {
-    padding: 7px 16px;
-    border-radius: 6px;
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action {
+    padding: 8px 16px;
+    border-radius: 20px;
+    /* Rounded pill buttons */
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
     border: none;
+    transition: all 0.2s;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    text-decoration: none;
+    justify-content: center;
 }
 
 .btn-edit {
-    background: #2196F3;
-    color: var(--white);
+    background: #0284c7;
+    /* Blue */
+    color: white;
 }
 
 .btn-edit:hover {
-    background: #1976D2;
-    transform: translateY(-1px);
+    background: #0369a1;
 }
 
 .btn-delete {
-    background: #F44336;
-    color: var(--white);
+    background: #dc2626;
+    /* Red */
+    color: white;
 }
 
 .btn-delete:hover {
-    background: #D32F2F;
-    transform: translateY(-1px);
+    background: #b91c1c;
 }
 
-.btn-view-job {
-    background: #4CAF50;
-    color: var(--white);
-    text-decoration: none;
+.btn-view {
+    background: #16a34a;
+    /* Green */
+    color: white;
 }
 
-.btn-view-job:hover {
-    background: #388E3C;
-    transform: translateY(-1px);
+.btn-view:hover {
+    background: #15803d;
+}
+
+.resume-link {
+    font-size: 14px;
+    color: var(--text-gray);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.resume-link:hover {
+    color: var(--text-dark);
+}
+
+/* ------------------------------------------------------------------
+   DARK MODE STYLES (Neon & Glassmorphism)
+   ------------------------------------------------------------------ */
+[data-theme="dark"] .application-card {
+    background: rgba(30, 41, 59, 0.4);
+    /* Glassmorphism background */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    /* Neon Blue Border */
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+    /* Subtle Glow */
+}
+
+/* Hover Effect for Card in Dark Mode */
+[data-theme="dark"] .application-card:hover {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.6);
+}
+
+[data-theme="dark"] .header-main h3 {
+    color: #f0f9ff;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    /* Text Glow */
+}
+
+[data-theme="dark"] .header-main .role {
+    color: #94a3b8;
+}
+
+/* Status Badges in Dark Mode */
+[data-theme="dark"] .status-badge {
+    box-shadow: 0 0 10px currentColor;
+    /* Glow based on status color */
+}
+
+[data-theme="dark"] .info-item {
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .info-item svg {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .card-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Neon Buttons for Dark Mode */
+[data-theme="dark"] .btn-action {
+    background: transparent;
+    border: 1px solid currentColor;
+    box-shadow: 0 0 5px currentColor;
+}
+
+[data-theme="dark"] .btn-edit {
+    color: #38bdf8;
+    /* Neon Blue */
+    border-color: #38bdf8;
+}
+
+[data-theme="dark"] .btn-edit:hover {
+    background: rgba(56, 189, 248, 0.1);
+    box-shadow: 0 0 15px #38bdf8;
+}
+
+[data-theme="dark"] .btn-delete {
+    color: #ef4444;
+    /* Neon Red */
+    border-color: #ef4444;
+}
+
+[data-theme="dark"] .btn-delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    box-shadow: 0 0 15px #ef4444;
+}
+
+[data-theme="dark"] .btn-view {
+    color: #4ade80;
+    /* Neon Green */
+    border-color: #4ade80;
+}
+
+[data-theme="dark"] .btn-view:hover {
+    background: rgba(74, 222, 128, 0.1);
+    box-shadow: 0 0 15px #4ade80;
+}
+
+[data-theme="dark"] .resume-link {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .resume-link:hover {
+    color: #f8fafc;
+    text-shadow: 0 0 5px white;
 }
 
 /* Modal Styles */
@@ -599,4 +683,102 @@
     .application-details {
         grid-template-columns: 1fr;
     }
+}
+
+/* ------------------------------------------------------------------
+   DARK MODE & GLASSMORPHISM ENHANCEMENTS & DASHBOARD VISIBILITY FIXES
+   ------------------------------------------------------------------ */
+
+/* Fix dashboard top spacing */
+.dashboard-section {
+    padding-top: 100px;
+    /* Increased from 40px to clear fixed navbar */
+    background: transparent;
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] .dashboard-title,
+[data-theme="dark"] .section-header h2 {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .metric-card,
+[data-theme="dark"] .chart-card,
+[data-theme="dark"] .calendar-card,
+[data-theme="dark"] .application-item {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .metric-content h3,
+[data-theme="dark"] .chart-card h3,
+[data-theme="dark"] .calendar-card h3,
+[data-theme="dark"] .application-title h3,
+[data-theme="dark"] .detail-item .value {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .application-header {
+    background: var(--card-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .application-details {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .form-actions {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .detail-item {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-group label {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .modal-header h2 {
+    color: var(--text-main);
+}
+
+/* Glassmorphism Modal */
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .modal-content {
+    background: rgba(30, 41, 59, 0.85);
+    /* Darker, slightly transparent */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Applications Section - ensure contrast */
+.applications-section {
+    background: transparent;
+    /* Updated to use body background */
 }

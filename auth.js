@@ -154,7 +154,7 @@ function updateUIForAuthenticatedUser(user) {
         <button class="btn-login user-profile-btn">
             <img src="${user.user_metadata.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.user_metadata.name || user.email)}" 
                  alt="Profile" class="user-avatar">
-            <span>${user.user_metadata.name || user.email}</span>
+            <span>My Account</span>
         </button>
         <div class="user-dropdown">
             <div class="user-info">

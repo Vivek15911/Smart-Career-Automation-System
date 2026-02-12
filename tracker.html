@@ -36,6 +36,13 @@
                     <li><a href="tracker.html" class="active">Application Tracker</a></li>
                 </ul>
                 <div class="nav-buttons">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode"
+                        style="margin-right: 12px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
                     <button class="btn-login">Login</button>
                     <button class="btn-primary" onclick="showAddForm()">+ Add Application</button>
                 </div>
@@ -242,6 +249,7 @@
     <script src="auth.js"></script>
     <script src="modal.js"></script>
     <script src="tracker.js"></script>
+    <script src="script.js"></script>
     <script>
         // Check authentication using standard auth.js flow
         document.addEventListener('DOMContentLoaded', function () {
