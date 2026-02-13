@@ -23,9 +23,9 @@
 
 [data-theme="dark"] {
     --primary-color: #ffffff;
-    --bg-color: #020617;
-    /* Deep almost black blue */
-    --bg-gradient: radial-gradient(circle at top right, #1e293b 0%, #020617 100%);
+    --bg-color: #0f172a;
+    /* Slate 900 - Lighter than pure black */
+    --bg-gradient: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --glass-bg: rgba(30, 41, 59, 0.4);
@@ -621,6 +621,11 @@ body {
     padding: 32px 0;
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .footer {
+    background: var(--bg-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .footer p {
